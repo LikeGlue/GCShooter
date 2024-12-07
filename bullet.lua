@@ -13,7 +13,7 @@ function newBullet()
     bullet.radius = 5
     bullet.startX = 0
     bullet.startY = 0
-    bullet.range = 100
+    bullet.range = 1000
     bullet.free = false
 
     bullet.fire = function(x, y, angle)
@@ -23,17 +23,16 @@ function newBullet()
         bullet.vy = math.sin(angle) * bullet.speed
         bullet.startX = x
         bullet.startY = y
-
     end
 
     bullet.update = function(dt)
         bullet.x = bullet.x + bullet.vx * dt
         bullet.y = bullet.y + bullet.vy * dt
 
-        local dist = distance(bullet.startX, bullet.startY, bullet.x, bullet.y)
+        local dist = math.dist(bullet.startX, bullet.startY, bullet.x, bullet.y)
 
         if dist > bullet.range then
-            bullet.free = true
+            bullet.queueFree()
         end
 
     end
@@ -45,6 +44,7 @@ function newBullet()
 
     bullet.queueFree = function()
         print("free bullet")
+        bullet.free = true
     end
 
     table.insert(bullets, bullet)
@@ -77,7 +77,7 @@ function checkCollisions(enemies)
     for _,bullet in ipairs(bullets) do
         for _,enemy in ipairs(enemies) do
             if isIntersecting(bullet.x, bullet.y, bullet.radius, enemy.x, enemy.y, enemy.radius) then
-                --enemy.queueFree()
+                enemy.takeDamage(bullet.damage)
                 bullet.queueFree()
             end       
         end

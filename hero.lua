@@ -2,7 +2,9 @@ local hero = {}
 hero.x = 0
 hero.y = 0
 hero.img = love.graphics.newImage("images/hero.png")
+hero.hp = 100
 hero.angle = 0
+hero.radius = 10
 hero.speed = 400
 hero.fireRate = 0.15
 hero.shootTimer = 0
@@ -32,8 +34,6 @@ hero.shoot = function ()
         bullet.fire(x,y, hero.angle)
         hero.shootTimer = hero.fireRate
     end
-
-
 end
 
 hero.move = function(dt)
@@ -54,7 +54,8 @@ end
 hero.update = function(dt)
     hero.move(dt)
     hero.aim(love.mouse.getPosition())
-
+    
+    
     if love.mouse.isDown(1) and oldMouseButtonState == false then
         hero.shoot()
     end
@@ -79,6 +80,8 @@ hero.draw = function()
     -- hero
     love.graphics.draw(hero.img, hero.x, hero.y, hero.angle + math.rad(90), 1, 1, hero.img:getWidth()/2, hero.img:getHeight()/2)
     
+    -- hero debug
+    love.graphics.print("Hero HP: "..hero.hp, 10, 30)
 
 end
 

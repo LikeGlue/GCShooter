@@ -6,7 +6,7 @@ function math.angle(x1,y1, x2,y2) return math.atan2(y2-y1, x2-x1) end
 
 
 function isIntersecting(x1, y1, r1, x2, y2, r2 )
-    local dist = distance(x1,y1,x2,y2)
+    local dist = math.dist(x1,y1,x2,y2)
     local radiusSum = r1 + r2
     return dist < radiusSum
 end

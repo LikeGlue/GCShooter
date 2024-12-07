@@ -17,5 +17,5 @@ end
 sceneMenu.keypressed = function(key)
     if key == "space" then
         changeScene("game", "Scene loaded...")
-    end  
-end
+    end
+end 

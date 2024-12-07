@@ -15,6 +15,8 @@ require("utils")
 require("sceneManager")
 require("sceneGame")
 require("sceneMenu")
+require("sceneGameOver")
+
 
 function love.load()
     love.window.setTitle("shootah (temp)")
@@ -22,7 +24,7 @@ function love.load()
     SCR_WIDTH = love.graphics.getWidth()
     SCR_HEIGHT = love.graphics.getHeight()
 
-    changeScene("game")
+    changeScene("menu")
 end
 
 function love.update(dt)
