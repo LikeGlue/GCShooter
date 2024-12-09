@@ -1,5 +1,9 @@
 require("utils")
+require("effects")
+require("hero")
 local bullets = {}
+local bulletTrailList = {}
+
 
 function newBullet()
     local bullet = {}
@@ -25,22 +29,50 @@ function newBullet()
         bullet.startY = y
     end
 
+
+
     bullet.update = function(dt)
         bullet.x = bullet.x + bullet.vx * dt
         bullet.y = bullet.y + bullet.vy * dt
+
+        bulletTrail = {}
+        bulletTrail.x = bullet.x
+        bulletTrail.y = bullet.y
+        bulletTrail.r = bullet.radius
+        bulletTrail.life = 0.1
+        table.insert(bulletTrailList, bulletTrail)
+
+        for n=#bulletTrailList,1,-1 do 
+            local trail = bulletTrailList[n]
+            trail.life = trail.life - dt
+            if trail.life <= 0 then
+                table.remove(bulletTrailList, n)
+            end
+        end
 
         local dist = math.dist(bullet.startX, bullet.startY, bullet.x, bullet.y)
 
         if dist > bullet.range then
             bullet.queueFree()
         end
+      
 
     end
 
     bullet.draw = function(dt)
-        love.graphics.circle("fill", bullet.x, bullet.y, bullet.radius )
-    end
 
+        for n=1,#bulletTrailList do
+            local trail = bulletTrailList[n]
+            love.graphics.setColor(1,1,0,1)
+            love.graphics.circle("fill", trail.x, trail.y, trail.r )
+            love.graphics.setColor(1,1,1,1)
+
+
+        end
+
+        --love.graphics.circle("fill", bullet.x, bullet.y, bullet.radius )
+
+    end
 
     bullet.queueFree = function()
         print("free bullet")
@@ -52,6 +84,7 @@ function newBullet()
 end
 
 function updateBullets(dt)
+
     for _,bullet in ipairs(bullets) do 
         bullet.update(dt)
     end
@@ -78,6 +111,7 @@ function checkCollisions(enemies)
         for _,enemy in ipairs(enemies) do
             if isIntersecting(bullet.x, bullet.y, bullet.radius, enemy.x, enemy.y, enemy.radius) then
                 enemy.takeDamage(bullet.damage)
+                ajouteExplosion(bullet.x,bullet.y, bullet.angle)
                 bullet.queueFree()
             end       
         end

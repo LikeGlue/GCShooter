@@ -1,11 +1,11 @@
 local hero = require("hero")
 
-
 function createEnemy()
     local enemy = {}
 
-    enemy.x = love.math.random(-50, 800)
-    enemy.y = love.math.random(-50, 800)
+
+    enemy.x = love.math.random(-50, SCR_WIDTH + 50)
+    enemy.y = love.math.random(- 50, SCR_HEIGHT + 50)
     enemy.radius = 10
     enemy.free = false
     enemy.life = 10
@@ -22,6 +22,23 @@ function createEnemy()
     enemy.shootMaxDuration = 1
     enemy.shootMinDuration = 0.5
     enemy.shootTimer = math.random(enemy.shootMinDuration, enemy.shootMaxDuration)
+
+    enemy.spawnX = function()
+        local spawnRadius = 500
+        if math.dist(hero.x, hero.y, enemy.x, enemy.y) < hero.radius + spawnRadius then
+            enemy.x = love.math.random(-50, SCR_WIDTH + 50)
+        end
+        --return enemy.x
+    end
+
+    enemy.spawnY = function()
+        local spawnRadius = 500
+        if math.dist(hero.x, hero.y, enemy.x, enemy.y) < hero.radius + spawnRadius then
+            enemy.y = love.math.random(- 50, SCR_HEIGHT + 50)
+        end
+        --return enemy.y
+    end
+
 
     enemy.update = function(dt)
         enemy.state(dt)
@@ -97,8 +114,14 @@ function createEnemy()
     end
 
     enemy.takeDamage = function(damage)
-        print("take damage")
-        print(damage)
+        local closeRange = 70
+        if math.dist(hero.x, hero.y, enemy.x, enemy.y) < hero.radius + closeRange then
+            startShake(0.3, 3)
+        else
+            startShake(0.2, 2)
+            print("take damage")
+            print(damage)
+        end
 
         enemy.life = enemy.life - damage
         if enemy.life <= 0 then

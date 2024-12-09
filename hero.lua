@@ -10,6 +10,7 @@ hero.fireRate = 0.15
 hero.shootTimer = 0
 hero.barrelLength = 15
 hero.targetImage = love.graphics.newImage("images/target.png")
+hero.score = 0
 
 local oldMouseButtonState = false
 
@@ -65,13 +66,17 @@ hero.update = function(dt)
     oldMouseButtonState = love.mouse.isDown(1)
 end
 
-hero.draw = function()
-
-    -- target
+hero.drawTarget = function()
     local targetX, targetY = love.mouse.getPosition()
     love.graphics.draw(hero.targetImage, targetX, targetY, 0, 2, 2, hero.targetImage:getWidth()/2, hero.targetImage:getHeight()/2)
+end
+
+hero.draw = function()
+
+
 
     -- laser sight
+    local targetX, targetY = love.mouse.getPosition()
     love.graphics.setColor(0.6,0,0.6,1)
     love.graphics.line( hero.x, hero.y, targetX, targetY)
     love.graphics.setColor(1,1,1,1)
@@ -79,10 +84,10 @@ hero.draw = function()
 
     -- hero
     love.graphics.draw(hero.img, hero.x, hero.y, hero.angle + math.rad(90), 1, 1, hero.img:getWidth()/2, hero.img:getHeight()/2)
-    
-    -- hero debug
-    love.graphics.print("Hero HP: "..hero.hp, 10, 30)
+end
 
+hero.drawDebug = function()
+    love.graphics.print("Hero HP: "..hero.hp, 10, 30)
 end
 
 hero.setFireRate = function(rate)
