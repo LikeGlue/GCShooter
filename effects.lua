@@ -5,8 +5,6 @@ listeBlasts = {}
 listeDrop = {}
 listeDrip = {}
 
-
-
 particle = {}
 particle.x = 0
 particle.y = 0
@@ -56,7 +54,6 @@ function drawBlast()
                 blast.c = {0.4,0.4,0.4,1}
             end
          
-           
         else
             love.graphics.setColor(1,1,1,1)
         end
@@ -136,5 +133,29 @@ function ajouteExplosion(pX,pY,pAngle)
     end
     for n=1,50 do
         ajouteParticule(pX,pY, pAngle)
+    end
+end
+
+function loadShake()
+    t = 0 -- timer
+    shakeDuration = -1
+    shakeMagnitude = 0
+end
+
+function startShake(duration, magnitude)
+    t, shakeDuration, shakeMagnitude = 0, duration or 1, magnitude or 5
+end
+
+function updateShake(dt)
+    if t < shakeDuration then
+        t = t + dt
+    end
+end
+
+function shakeDraw()
+    if t < shakeDuration then
+        local dx = love.math.random(-shakeMagnitude, shakeMagnitude)
+        local dy = love.math.random(-shakeMagnitude, shakeMagnitude)
+        love.graphics.translate(dx, dy)
     end
 end

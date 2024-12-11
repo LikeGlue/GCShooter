@@ -73,6 +73,11 @@ hero.drawTarget = function()
 end
 
 hero.draw = function()
+    -- hero
+    love.graphics.draw(hero.img, hero.x, hero.y, hero.angle + math.rad(90), 1, 1, hero.img:getWidth()/2, hero.img:getHeight()/2)
+end
+
+hero.laserDraw = function()
     -- laser sight
     local targetX, targetY = love.mouse.getPosition()
     love.graphics.setColor(1,1,1,1)
@@ -80,9 +85,6 @@ hero.draw = function()
     love.graphics.setLineWidth(2)
     love.graphics.line( hero.x, hero.y, targetX, targetY)
     love.graphics.setColor(1,1,1,1)
-
-    -- hero
-    love.graphics.draw(hero.img, hero.x, hero.y, hero.angle + math.rad(90), 1, 1, hero.img:getWidth()/2, hero.img:getHeight()/2)
 end
 
 hero.drawDebug = function()
