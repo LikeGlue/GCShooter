@@ -2,17 +2,22 @@ local hero = require("hero")
 
 function createEnemy()
     local enemy = {}
+    local spawnRadius = 1000
+    local angle = math.random() * 2 * math.pi
+    local distance = math.sqrt(math.random()) * spawnRadius
+    enemy.spx = SCR_WIDTH/2 -- spawn center coordinates X
+    enemy.spy = SCR_HEIGHT/2 -- spawn center coordinates Y
+    enemy.x = enemy.spx + distance * math.cos(angle)
+    enemy.y = enemy.spy + distance * math.sin(angle) 
 
-
-    enemy.x = love.math.random(-50, SCR_WIDTH + 50)
-    enemy.y = love.math.random(- 50, SCR_HEIGHT + 50)
+    enemy.barrelLength = 15
     enemy.radius = 10
     enemy.free = false
     enemy.life = 10
     enemy.speed = 100
     enemy.seekRange = 1000
     enemy.image = love.graphics.newImage("images/enemy.png")
-                         
+    enemy.angle = 0
 
     enemy.idleMaxDuration = 5
     enemy.idleMinDuration = 2
@@ -23,73 +28,18 @@ function createEnemy()
     enemy.shootMinDuration = 0.5
     enemy.shootTimer = math.random(enemy.shootMinDuration, enemy.shootMaxDuration)
 
-    enemy.spawnX = function()
-        local spawnRadius = 500
-        if math.dist(hero.x, hero.y, enemy.x, enemy.y) < hero.radius + spawnRadius then
-            enemy.x = love.math.random(-50, SCR_WIDTH + 50)
-        end
-        --return enemy.x
-    end
-
-    enemy.spawnY = function()
-        local spawnRadius = 500
-        if math.dist(hero.x, hero.y, enemy.x, enemy.y) < hero.radius + spawnRadius then
-            enemy.y = love.math.random(- 50, SCR_HEIGHT + 50)
-        end
-        --return enemy.y
-    end
 
 
     enemy.update = function(dt)
         enemy.state(dt)
-        enemy.checkHeroDistance()
-    
-    
-    end
-
-    enemy.idleState = function(dt)
-        if enemy.idleTimer <= 0 then
-            enemy.idleTimer = math.random(enemy.idleMinDuration, enemy.idleMaxDuration)
-            if math.random(1, 7) ~= 1 then
-                enemy.state = enemy.shootState
-            end
-        else
-            enemy.idleTimer = enemy.idleTimer - dt
-        end
-
-        enemy.checkHeroDistance()
-    end
-
-    enemy.shootState = function(dt)
-        enemy.x = enemy.x + math.cos(enemy.direction) * enemy.speed * dt
-        enemy.y = enemy.y + math.sin(enemy.direction) * enemy.speed * dt
-
-        if enemy.shootTimer <= 0 then
-            enemy.shootTimer = math.random(enemy.shootMinDuration, enemy.shootMaxDuration)
-            enemy.direction = math.random(enemy.direction - math.pi / 4, enemy.direction + math.pi / 4)
-            if math.random(1, 7) == 1 then
-                enemy.state = enemy.idleState
-            end
-        else
-            enemy.shootTimer = enemy.shootTimer - dt
-        end
-        enemy.checkHeroDistance()
+        enemy.checkHeroDistance()    
     end
 
     enemy.chargeState = function(dt)
-        angle = math.atan2(hero.y - enemy.y, hero.x - enemy.x)
-        enemy.x = enemy.x + math.cos(angle) * enemy.speed * dt
-        enemy.y = enemy.y + math.sin(angle) * enemy.speed * dt
+        enemy.angle = math.atan2(hero.y - enemy.y, hero.x - enemy.x)
+        enemy.x = enemy.x + math.cos(enemy.angle) * enemy.speed * dt
+        enemy.y = enemy.y + math.sin(enemy.angle) * enemy.speed * dt
         enemy.checkHeroDistance()
-    end
-
-    enemy.attackState = function(dt)
-        local destX, destY
-        destX = math.random(hero.x - 20, hero.x + 20)
-        destY = math.random(hero.y - 20, hero.y + 20)
-        local angle = math.angle(enemy.x, enemy.y, destX, destY)
-        enemy.x = enemy.x + math.cos(angle) * enemy.speed * dt
-        enemy.y = enemy.y + math.sin(angle) * enemy.speed * dt
     end
 
     enemy.checkHeroDistance = function()
@@ -103,7 +53,7 @@ function createEnemy()
     enemy.draw = function()
         local offsetX = enemy.image:getWidth() / 2
         local offsetY = enemy.image:getHeight() / 2
-        local r = angle + math.pi/2
+        local r = enemy.angle + math.pi/2
         love.graphics.draw(enemy.image, enemy.x, enemy.y, r, 1, 1, offsetX, offsetY)
  
         
@@ -126,6 +76,7 @@ function createEnemy()
         enemy.life = enemy.life - damage
         if enemy.life <= 0 then
             enemy.queueFree()
+            hero.score = hero.score + 100
         end
     end
 
@@ -136,3 +87,8 @@ function createEnemy()
 
     return enemy
 end
+
+function initEnemies()
+    enemies = {}
+end
+

@@ -14,7 +14,7 @@ function newBullet()
     bullet.vy = 0
     bullet.speed = 500
     bullet.damage = 10
-    bullet.radius = 5
+    bullet.radius = 7
     bullet.startX = 0
     bullet.startY = 0
     bullet.range = 1000
@@ -29,8 +29,6 @@ function newBullet()
         bullet.startY = y
     end
 
-
-
     bullet.update = function(dt)
         bullet.x = bullet.x + bullet.vx * dt
         bullet.y = bullet.y + bullet.vy * dt
@@ -39,7 +37,7 @@ function newBullet()
         bulletTrail.x = bullet.x
         bulletTrail.y = bullet.y
         bulletTrail.r = bullet.radius
-        bulletTrail.life = 0.1
+        bulletTrail.life = 0.15
         table.insert(bulletTrailList, bulletTrail)
 
         for n=#bulletTrailList,1,-1 do 
@@ -47,6 +45,7 @@ function newBullet()
             trail.life = trail.life - dt
             if trail.life <= 0 then
                 table.remove(bulletTrailList, n)
+
             end
         end
 
@@ -55,23 +54,15 @@ function newBullet()
         if dist > bullet.range then
             bullet.queueFree()
         end
-      
-
     end
 
     bullet.draw = function(dt)
-
         for n=1,#bulletTrailList do
             local trail = bulletTrailList[n]
-            love.graphics.setColor(1,1,0,1)
+            love.graphics.setColor(1,1,1,1)
             love.graphics.circle("fill", trail.x, trail.y, trail.r )
             love.graphics.setColor(1,1,1,1)
-
-
         end
-
-        --love.graphics.circle("fill", bullet.x, bullet.y, bullet.radius )
-
     end
 
     bullet.queueFree = function()
@@ -84,7 +75,7 @@ function newBullet()
 end
 
 function updateBullets(dt)
-
+    
     for _,bullet in ipairs(bullets) do 
         bullet.update(dt)
     end
@@ -116,5 +107,9 @@ function checkCollisions(enemies)
             end       
         end
     end
+end
 
+function initBullets()
+    bullets = {}
+    bulletTrailList = {}
 end

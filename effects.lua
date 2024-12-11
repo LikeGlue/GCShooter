@@ -2,6 +2,11 @@ listeParticules = {}
 listeRocket = {}
 listeBlasts = {}
 
+listeDrop = {}
+listeDrip = {}
+
+
+
 particle = {}
 particle.x = 0
 particle.y = 0
@@ -18,12 +23,12 @@ function ajouteBlast(pX, pY)
     local monBlast = {}
     monBlast.x = pX
     monBlast.y = pY
-    monBlast.r = love.math.random(10,20)
-    monBlast.vx = love.math.random(-400,400)/300
-    monBlast.vy = love.math.random(-400,400)/300
+    monBlast.r = love.math.random(5,20)
+    monBlast.vx = love.math.random(-400,400)/200
+    monBlast.vy = love.math.random(-400,400)/200
     monBlast.vie = love.math.random(50,400)/1000
     monBlast.c = {0,0,0,0}
-    monBlast.speed = 40
+    monBlast.speed = 30
     table.insert(listeBlasts, monBlast)
 end
 
@@ -45,13 +50,10 @@ function drawBlast()
         blast.r = blast.r - 0.1
         if blast.vie > 0 then
             if blast.r < 20 then
-                blast.c = {1,0.4,0,1}
+                blast.c = {1,1,1,1}
             end
-            if blast.r < 15 then
-                blast.c = {1,0.5,0,1}
-            end
-            if blast.r < 10 then
-                blast.c = {0.5,0.5,0.5,1}
+            if blast.r < 7 then
+                blast.c = {0.4,0.4,0.4,1}
             end
          
            
@@ -129,7 +131,7 @@ function drawParticule()
 end
 
 function ajouteExplosion(pX,pY,pAngle)
-    for n=1,10 do
+    for n=1,15 do
         ajouteBlast(pX, pY)
     end
     for n=1,50 do
