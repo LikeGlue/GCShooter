@@ -1,5 +1,6 @@
 require("sceneManager")
-require("enemy")
+require("enemy1")
+require("extraEnemies")
 require("bullet")
 
 local hero = require("hero")
@@ -16,9 +17,8 @@ MAP_HEIGHT = 9
 TILE_HEIGHT = 64
 TILE_WIDTH = 64
 
-
-
 sceneGame.load = function(data)
+    loadEnemies()
     loadShake()
     hero.load()
     spawn = false
@@ -26,16 +26,17 @@ sceneGame.load = function(data)
     hero.speed = 0
     startTimer = 4
     startShake(duration, magnitude)
-    
 end
 
 sceneGame.unLoad = function()
     initEnemies()
     initBullets()
+    initEffects()
 end
 
 sceneGame.update = function(dt)
     updateShake(dt)
+    --updateExtraEnemies(dt)
 
     startTimer = startTimer - (1 * dt)
     if startTimer <= 1 then
@@ -80,16 +81,18 @@ sceneGame.update = function(dt)
 end
 
 sceneGame.draw = function()
+    love.graphics.setBackgroundColor(0,0,0)
+    --drawSprites()
+
     love.graphics.printf("SCORE: "..hero.score,0,10,1000,"center")
     if startTimer >= 1 then
         setFont("Pixelfraktur", 150)
          love.graphics.printf(math.floor(startTimer),0,100,1000,"center")
          setFont("Bitmgothic", 20)
     end
-    love.graphics.setBackgroundColor(0,0,0)
-   
     
     if spawn == true then
+        shakeDraw()
         hero.laserDraw()
         for _, enemy in ipairs(enemies) do
             enemy.draw()
@@ -97,14 +100,10 @@ sceneGame.draw = function()
         drawBullets()
         drawBlast()
         drawParticule()
-        shakeDraw()
         hero.drawTarget()
+
     end
     hero.draw()
-    
-    
-    
-    
     
     --love.graphics.printf("number of enemies: "..#enemies, 10, 10 + 16 * 2)
     --love.graphics.printf("SpawnTimer: "..spawnTimer, 10, 10 + 16 * 3)

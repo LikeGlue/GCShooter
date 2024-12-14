@@ -5,11 +5,10 @@ local sceneMenu = newScene("menu")
 
 sceneMenu.load = function(data)
     spawn = false
-
 end
 
 sceneMenu.update = function(dt)
-
+    
 end
 
 sceneMenu.draw = function()

@@ -8,7 +8,7 @@ hero.hp = 100
 hero.angle = 0
 hero.radius = 10
 hero.speed = 400
-hero.fireRate = 0.10
+hero.fireRate = 0.1
 hero.shootTimer = 0
 hero.barrelLength = 15
 hero.targetImage = love.graphics.newImage("images/target.png")
@@ -61,6 +61,7 @@ hero.update = function(dt,spawn)
             hero.shoot()
         end
     end
+
     if hero.shootTimer > 0 then
         hero.shootTimer = hero.shootTimer - dt
     end
@@ -91,13 +92,13 @@ hero.drawDebug = function()
     love.graphics.print("Hero HP: "..hero.hp, 10, 30)
 end
 
-hero.setFireRate = function(rate)
+--[[ hero.setFireRate = function(rate)
     if rate < 0 then
         rate = 0
     elseif hero.rate > 10 then
         rate = 10
     end
-end
+end ]]
 
 return hero
 

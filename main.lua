@@ -8,17 +8,15 @@ require("sceneGame")
 require("sceneMenu")
 require("sceneGameOver")
 
-
-
 function love.load()
-    
-    love.graphics.setFont(font)
+
     love.window.setTitle("XSHTX")
     love.window.setMode(1024,576)
     SCR_WIDTH = love.graphics.getWidth()
     SCR_HEIGHT = love.graphics.getHeight()
-    
+
     changeScene("menu")
+
 end
 
 function love.update(dt)

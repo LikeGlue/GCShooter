@@ -1,6 +1,5 @@
 local scenes = {}
 
-
 function newScene(title)
     local scene = {}
 

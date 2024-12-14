@@ -53,13 +53,12 @@ function drawBlast()
             if blast.r < 7 then
                 blast.c = {0.4,0.4,0.4,1}
             end
-         
         else
             love.graphics.setColor(1,1,1,1)
         end
         love.graphics.circle("fill", blast.x, blast.y, blast.r)
         love.graphics.setColor(blast.c)
-        --love.graphics.setColor(1,1,1,1)
+        love.graphics.setColor(1,1,1,1)
     end
 end
 
@@ -158,4 +157,9 @@ function shakeDraw()
         local dy = love.math.random(-shakeMagnitude, shakeMagnitude)
         love.graphics.translate(dx, dy)
     end
+end
+
+function initEffects()
+    listeParticules = {}
+    listeBlasts = {}
 end
