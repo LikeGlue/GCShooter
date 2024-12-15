@@ -15,15 +15,6 @@ function createEnemy()
     enemy.image = love.graphics.newImage("images/enemy.png")
     enemy.angle = 0
 
-    enemy.idleMaxDuration = 5
-    enemy.idleMinDuration = 2
-    enemy.idleTimer = math.random(enemy.idleMinDuration, enemy.idleMaxDuration)
-
-    enemy.direction = math.random(0, 2 * math.pi)
-    enemy.shootMaxDuration = 1
-    enemy.shootMinDuration = 0.5
-    enemy.shootTimer = math.random(enemy.shootMinDuration, enemy.shootMaxDuration)
-
     enemy.update = function(dt)
         enemy.state(dt)
         enemy.checkHeroDistance()    

@@ -17,13 +17,10 @@ function createScourge()
     scourge.image = love.graphics.newImage("images/scourge.png")
     scourge.angle = 0
     scourge.barrelLength = 15
-    scourge.fireRate = 1
+    scourge.fireRate = 1.5
+    scourge.width = scourge.image:getWidth()
+    scourge.height = scourge.image:getHeight()
 
-    scourge.idleMaxDuration = 5
-    scourge.idleMinDuration = 2
-    scourge.idleTimer = math.random(scourge.idleMinDuration, scourge.idleMaxDuration)
-
-    scourge.direction = math.random(0, 2 * math.pi)
     scourge.shootMaxDuration = 1
     scourge.shootMinDuration = 0.5
     scourge.shootTimer = 1
@@ -67,7 +64,9 @@ function createScourge()
         scourge.y = scourge.y + math.sin(scourge.angle) * scourge.speed * dt
         scourge.checkHeroDistance()
 
-        if math.dist(hero.x, hero.y, scourge.x, scourge.y) < hero.radius + scourge.shootRange then
+        if math.dist(hero.x, hero.y, scourge.x, scourge.y) < hero.radius + scourge.shootRange and 
+        scourge.x - scourge.width * 2 > 0 and scourge.x - scourge.width * 2 < SCR_WIDTH and
+        scourge.y - scourge.height * 2 > 0 and scourge.y + scourge.height * 2 < SCR_HEIGHT then
             scourge.state = scourge.shootState
         end
     end

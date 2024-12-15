@@ -107,8 +107,8 @@ function checkCollisions()
     for _,scourgeBullet in ipairs(scourgeBullets) do
         if isIntersecting(scourgeBullet.x, scourgeBullet.y, scourgeBullet.radius, hero.x, hero.y, hero.radius) then
             hero.takeDamage(scourgeBullet.damage)
-            ajouteExplosion(scourgeBullet.x,scourgeBullet.y, scourgeBullet.angle)
             scourgeBullet.queueFree()
+            ajouteExplosion(scourgeBullet.x,scourgeBullet.y, scourgeBullet.angle)
         end       
     end
 end

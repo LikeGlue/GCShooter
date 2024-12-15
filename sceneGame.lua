@@ -16,7 +16,7 @@ local startTimer = 0
 
 local heroStart = false
 
-sceneGame.load = function(data)
+sceneGame.load = function()
     loadShake()
     hero.load()
     spawn = false
@@ -33,6 +33,7 @@ sceneGame.unLoad = function()
     initEffects()
     initScourge()
     initScourgeBullets()
+
 end
 
 sceneGame.update = function(dt)
@@ -92,7 +93,6 @@ sceneGame.update = function(dt)
         end
     end
 
-
     for i = #enemies, 1, -1 do
         if enemies[i].free then
             table.remove(enemies, i)
@@ -117,7 +117,9 @@ sceneGame.draw = function()
 
     if spawn == true then
         shakeDraw()
-        hero.laserDraw()
+        if hero.dead == false then
+            hero.laserDraw()
+        end
         for _, enemy in ipairs(enemies) do
             enemy.draw()
         end
@@ -130,14 +132,17 @@ sceneGame.draw = function()
         drawScourgeBullets()
         drawBlast()
         drawParticule()
-        hero.drawTarget()
+
+        if hero.dead == false then
+            hero.drawTarget()
+        end
     end
     hero.draw()
 
+    -- DEBUGGING --
     --love.graphics.printf("number of enemies: "..#enemies, 10, 10 + 16 * 2)
     --love.graphics.printf("SpawnTimer: "..spawnTimer, 10, 10 + 16 * 3)
-
     --drawBulletDebug()
     --hero.drawDebug()
-    drawScourgeBulletDebug()
+    --drawScourgeBulletDebug()
 end

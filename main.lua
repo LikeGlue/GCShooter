@@ -7,6 +7,7 @@ require("sceneManager")
 require("sceneGame")
 require("sceneMenu")
 require("sceneGameOver")
+require("sceneCredits")
 
 function love.load()
 

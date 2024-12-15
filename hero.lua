@@ -6,13 +6,14 @@ hero.width = hero.img:getWidth()
 hero.height = hero.img:getHeight()
 hero.hp = 10
 hero.angle = 0
-hero.radius = 10
+hero.radius = 5
 hero.speed = 400
 hero.fireRate = 0.1
 hero.shootTimer = 0
 hero.barrelLength = 15
 hero.targetImage = love.graphics.newImage("images/target.png")
 hero.score = 0
+hero.dead = false
 
 local oldMouseButtonState = false
 
@@ -57,15 +58,23 @@ hero.takeDamage = function(damage)
     print("hero touched")
     hero.hp = hero.hp - damage
     if hero.hp <= 0 then
-        changeScene("gameover", "Scene loaded...")
+        hero.dead = true
     end
 end
 
 hero.update = function(dt, spawn)
-    hero.move(dt)
-    hero.aim(love.mouse.getPosition())
+    if hero.dead == true then
+        changeScene("gameover", "Scene loaded...")
+    end
+
+    if hero.dead == false then
+        hero.move(dt)
+        hero.aim(love.mouse.getPosition())
+    end
+    
     if spawn then
         if love.mouse.isDown(1) and oldMouseButtonState == false then
+            startShake(0.2, 0.3)
             hero.shoot()
         end
     end
@@ -74,6 +83,7 @@ hero.update = function(dt, spawn)
         hero.shootTimer = hero.shootTimer - dt
     end
     oldMouseButtonState = love.mouse.isDown(1)
+
 end
 
 hero.drawTarget = function()
