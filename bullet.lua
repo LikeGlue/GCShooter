@@ -104,7 +104,7 @@ function drawBulletDebug()
     love.graphics.print("Bullets: "..#bullets, 10, 10)
 end
 
-function checkCollisions(enemies)
+function checkEnemyCollisions(enemies)
     for _,bullet in ipairs(bullets) do
         for _,enemy in ipairs(enemies) do
             if isIntersecting(bullet.x, bullet.y, bullet.radius, enemy.x, enemy.y, enemy.radius) then
@@ -116,7 +116,7 @@ function checkCollisions(enemies)
     end
 end
 
-function checkCollisions(scourges)
+function checkScourgeCollisions(scourges)
     for _,bullet in ipairs(bullets) do
         for _,enemy in ipairs(scourges) do
             if isIntersecting(bullet.x, bullet.y, bullet.radius, enemy.x, enemy.y, enemy.radius) then
@@ -130,5 +130,4 @@ end
 
 function initBullets()
     bullets = {}
-    bulletTrailList = {}
 end

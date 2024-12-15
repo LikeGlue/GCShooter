@@ -1,12 +1,12 @@
 local hero = require("hero")
 require("utils")
 require("enemy")
-
+require("bulletScourge")
 
 function createScourge()
     local scourge = {}
     local spawnRadius = 600
-    scourge.x, scourge.y = 100,100
+    scourge.x, scourge.y = spawnOffscreen(SCR_WIDTH/2, SCR_HEIGHT/2,spawnRadius,600)
     scourge.barrelLength = 15
     scourge.radius = 10
     scourge.free = false
@@ -16,6 +16,8 @@ function createScourge()
     scourge.shootRange = 400
     scourge.image = love.graphics.newImage("images/scourge.png")
     scourge.angle = 0
+    scourge.barrelLength = 15
+    scourge.fireRate = 1
 
     scourge.idleMaxDuration = 5
     scourge.idleMinDuration = 2
@@ -24,11 +26,26 @@ function createScourge()
     scourge.direction = math.random(0, 2 * math.pi)
     scourge.shootMaxDuration = 1
     scourge.shootMinDuration = 0.5
-    scourge.shootTimer = math.random(scourge.shootMinDuration, scourge.shootMaxDuration)
+    scourge.shootTimer = 1
+
+    scourge.shoot = function ()
+        if scourge.shootTimer <= 0 then
+            local bullet = newScourgeBullet()
+            local x = scourge.barrelLength * math.cos(scourge.angle) + scourge.x
+            local y = scourge.barrelLength * math.sin(scourge.angle) + scourge.y
+            
+            bullet.fire(x,y, scourge.angle)
+            scourge.shootTimer = scourge.fireRate
+        end
+    end
 
     scourge.update = function(dt)
         scourge.state(dt)
-        scourge.checkHeroDistance()    
+        scourge.checkHeroDistance()
+        if scourge.shootTimer > 0 then
+            scourge.shootTimer = scourge.shootTimer - dt
+        end
+        
     end
 
     scourge.shootState = function(dt)
@@ -36,6 +53,8 @@ function createScourge()
         scourge.angle = math.atan2(hero.y - scourge.y, hero.x - scourge.x)
         scourge.x = scourge.x + math.cos(scourge.angle) * speed * dt
         scourge.y = scourge.y + math.sin(scourge.angle) * speed * dt
+        scourge.shoot()
+
         
         if math.dist(hero.x, hero.y, scourge.x, scourge.y) > hero.radius + scourge.shootRange then
             scourge.state = scourge.chargeState

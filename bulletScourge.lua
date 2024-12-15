@@ -1,10 +1,9 @@
 require("utils")
 require("effects")
-require("hero")
+local hero = require("hero")
 local scourgeBullets = {}
---local scourgeBulletTrailList = {}
 
-function newscourgeBullet()
+function newScourgeBullet()
     local scourgeBullet = {}
     scourgeBullet.x = 0
     scourgeBullet.y = 0
@@ -70,7 +69,7 @@ function newscourgeBullet()
     scourgeBullet.draw = function()
         for n=1,#scourgeBullet.trailList do
             local trail = scourgeBullet.trailList[n]
-            love.graphics.setColor(1,1,1,1)
+            love.graphics.setColor(1,0,0,1)
             love.graphics.circle("fill", trail.x, trail.y, trail.radius )
             love.graphics.setColor(1,1,1,1)
         end
@@ -81,10 +80,9 @@ function newscourgeBullet()
 end
 
 
-function updatescourgeBullets(dt)
+function updateScourgeBullets(dt)
 
     for _,scourgeBullet in ipairs(scourgeBullets) do
-        
         scourgeBullet.update(dt)
     end
 
@@ -95,29 +93,26 @@ function updatescourgeBullets(dt)
     end
 end
 
-function drawscourgeBullets()
+function drawScourgeBullets()
     for _,scourgeBullet in ipairs(scourgeBullets) do
         scourgeBullet.draw()
     end
 end
 
-function drawscourgeBulletDebug()
+function drawScourgeBulletDebug()
     love.graphics.print("scourgeBullets: "..#scourgeBullets, 10, 10)
 end
 
---[[ function checkCollisions(enemies)
+function checkCollisions()
     for _,scourgeBullet in ipairs(scourgeBullets) do
-        for _,enemy in ipairs(enemies) do
-            if isIntersecting(scourgeBullet.x, scourgeBullet.y, scourgeBullet.radius, enemy.x, enemy.y, enemy.radius) then
-                enemy.takeDamage(scourgeBullet.damage)
-                ajouteExplosion(scourgeBullet.x,scourgeBullet.y, scourgeBullet.angle)
-                scourgeBullet.queueFree()
-            end       
-        end
+        if isIntersecting(scourgeBullet.x, scourgeBullet.y, scourgeBullet.radius, hero.x, hero.y, hero.radius) then
+            hero.takeDamage(scourgeBullet.damage)
+            ajouteExplosion(scourgeBullet.x,scourgeBullet.y, scourgeBullet.angle)
+            scourgeBullet.queueFree()
+        end       
     end
-end ]]
+end
 
-function initscourgeBullets()
+function initScourgeBullets()
     scourgeBullets = {}
-    scourgeBulletTrailList = {}
 end

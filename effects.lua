@@ -62,35 +62,6 @@ function drawBlast()
     end
 end
 
--- *** ROCKET is WIP *** ---
-function ajouteRocket()
-    local monRocket = {}
-    monRocket.x = love.math.random(0, love.graphics.getWidth())
-    monRocket.y = love.graphics.getHeight()
-    monRocket.longueur = love.math.random(400,550)
-    monRocket.dist = 0
-    table.insert(listeRocket, monRocket)
-end
-
-function updateRocket(dt)
-    for n=#listeRocket,1,-1 do
-        local Rocket = listeRocket[n]
-        Rocket.dist = Rocket.dist + 3
-        if Rocket.dist >= Rocket.longueur then
-            ajouteExplosion(Rocket.x, love.graphics.getHeight() - Rocket.dist)
-            table.remove(listeRocket, n)
-        end
-    end
-end
-
-function drawRocket()
-    for n=1,#listeRocket do
-        local Rocket = listeRocket[n]
-        love.graphics.rectangle("fill", Rocket.x, love.graphics.getHeight() - Rocket.dist, 5, 5)
-    end
-end
---- *** *** ---
-
 function ajouteParticule(pX, pY, pAngle)
     local maParticule = {}
     maParticule.x = pX + love.math.random(-5,5)

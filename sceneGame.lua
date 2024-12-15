@@ -32,6 +32,7 @@ sceneGame.unLoad = function()
     initBullets()
     initEffects()
     initScourge()
+    initScourgeBullets()
 end
 
 sceneGame.update = function(dt)
@@ -45,9 +46,13 @@ sceneGame.update = function(dt)
 
     if heroStart == true then
         hero.speed = 400
+
         updateBullets(dt)
-        checkCollisions(enemies)
-        checkCollisions(scourges)
+        updateScourgeBullets(dt)
+
+        checkEnemyCollisions(enemies)
+        checkScourgeCollisions(scourges)
+        checkCollisions()
 
         updateBlast(dt)
         updateParticule(dt)
@@ -66,7 +71,7 @@ sceneGame.update = function(dt)
     if spawn == true then
         spawnTimer = spawnTimer + (1 * dt)
         if spawnTimer >= 1 then
-            --table.insert(enemies, createEnemy())
+            table.insert(enemies, createEnemy())
             spawnTimer = 0
         end
 
@@ -114,7 +119,7 @@ sceneGame.draw = function()
         shakeDraw()
         hero.laserDraw()
         for _, enemy in ipairs(enemies) do
-            --enemy.draw()
+            enemy.draw()
         end
 
         for _, scourge in ipairs(scourges) do
@@ -122,6 +127,7 @@ sceneGame.draw = function()
         end
 
         drawBullets()
+        drawScourgeBullets()
         drawBlast()
         drawParticule()
         hero.drawTarget()
@@ -133,4 +139,5 @@ sceneGame.draw = function()
 
     --drawBulletDebug()
     --hero.drawDebug()
+    drawScourgeBulletDebug()
 end
