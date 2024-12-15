@@ -92,14 +92,6 @@ hero.drawDebug = function()
     love.graphics.print("Hero HP: "..hero.hp, 10, 30)
 end
 
---[[ hero.setFireRate = function(rate)
-    if rate < 0 then
-        rate = 0
-    elseif hero.rate > 10 then
-        rate = 10
-    end
-end ]]
-
 return hero
 
   

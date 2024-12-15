@@ -1,6 +1,3 @@
-require("hero")
-require("enemy")
-
 -- FONTS -- Bitmgothic.ttf // Pixelfraktur.ttf
 
 function setFont(name, size)

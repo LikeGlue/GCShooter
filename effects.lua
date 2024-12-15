@@ -62,6 +62,7 @@ function drawBlast()
     end
 end
 
+-- *** ROCKET is WIP *** ---
 function ajouteRocket()
     local monRocket = {}
     monRocket.x = love.math.random(0, love.graphics.getWidth())
@@ -88,6 +89,7 @@ function drawRocket()
         love.graphics.rectangle("fill", Rocket.x, love.graphics.getHeight() - Rocket.dist, 5, 5)
     end
 end
+--- *** *** ---
 
 function ajouteParticule(pX, pY, pAngle)
     local maParticule = {}

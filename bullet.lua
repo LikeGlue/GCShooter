@@ -2,7 +2,6 @@ require("utils")
 require("effects")
 require("hero")
 local bullets = {}
---local bulletTrailList = {}
 
 function newBullet()
     local bullet = {}
@@ -22,7 +21,6 @@ function newBullet()
     bullet.trailList = {}
 
     bullet.createTrail = function(x,y,r)
-        print("bullet trail nb: "..#bullets)
         local bulletTrail = {}
         bulletTrail.x = x
         bulletTrail.y = y
@@ -65,7 +63,6 @@ function newBullet()
     end
 
     bullet.queueFree = function()
-        print("free bullet")
         bullet.free = true
     end
 
@@ -110,6 +107,18 @@ end
 function checkCollisions(enemies)
     for _,bullet in ipairs(bullets) do
         for _,enemy in ipairs(enemies) do
+            if isIntersecting(bullet.x, bullet.y, bullet.radius, enemy.x, enemy.y, enemy.radius) then
+                enemy.takeDamage(bullet.damage)
+                ajouteExplosion(bullet.x,bullet.y, bullet.angle)
+                bullet.queueFree()
+            end       
+        end
+    end
+end
+
+function checkCollisions(scourges)
+    for _,bullet in ipairs(bullets) do
+        for _,enemy in ipairs(scourges) do
             if isIntersecting(bullet.x, bullet.y, bullet.radius, enemy.x, enemy.y, enemy.radius) then
                 enemy.takeDamage(bullet.damage)
                 ajouteExplosion(bullet.x,bullet.y, bullet.angle)

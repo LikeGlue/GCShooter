@@ -12,7 +12,7 @@ function createEnemy()
     enemy.life = 10
     enemy.speed = 150
     enemy.seekRange = 1000
-    enemy.image = love.graphics.newImage("images/enemy1.png")
+    enemy.image = love.graphics.newImage("images/enemy.png")
     enemy.angle = 0
 
     enemy.idleMaxDuration = 5
