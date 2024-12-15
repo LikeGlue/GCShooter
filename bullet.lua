@@ -11,7 +11,7 @@ function newBullet()
     bullet.angle = 0
     bullet.vx = 0
     bullet.vy = 0
-    bullet.speed = 500
+    bullet.speed = 1200
     bullet.damage = 10
     bullet.radius = 8
     bullet.startX = 0
@@ -27,7 +27,7 @@ function newBullet()
         bulletTrail.x = x
         bulletTrail.y = y
         bulletTrail.radius = r
-        bulletTrail.life = 0.07
+        bulletTrail.life = 0.03
         table.insert(bullet.trailList, bulletTrail)
     end
 

@@ -1,22 +1,18 @@
 local hero = require("hero")
+require("utils")
+
 
 function createEnemy()
     local enemy = {}
-    local spawnRadius = 1000
-    local angle = math.random() * 2 * math.pi
-    local distance = math.sqrt(math.random()) * spawnRadius
-    enemy.spx = SCR_WIDTH/2 -- spawn center coordinates X
-    enemy.spy = SCR_HEIGHT/2 -- spawn center coordinates Y
-    enemy.x = enemy.spx + distance * math.cos(angle)
-    enemy.y = enemy.spy + distance * math.sin(angle) 
-
+    local spawnRadius = 600
+    enemy.x, enemy.y = spawnOffscreen(SCR_WIDTH/2, SCR_HEIGHT/2,spawnRadius,600)
     enemy.barrelLength = 15
     enemy.radius = 10
     enemy.free = false
     enemy.life = 10
-    enemy.speed = 100
+    enemy.speed = 150
     enemy.seekRange = 1000
-    enemy.image = love.graphics.newImage("images/enemy.png")
+    enemy.image = love.graphics.newImage("images/enemy1.png")
     enemy.angle = 0
 
     enemy.idleMaxDuration = 5
@@ -27,8 +23,6 @@ function createEnemy()
     enemy.shootMaxDuration = 1
     enemy.shootMinDuration = 0.5
     enemy.shootTimer = math.random(enemy.shootMinDuration, enemy.shootMaxDuration)
-
-
 
     enemy.update = function(dt)
         enemy.state(dt)
@@ -56,7 +50,6 @@ function createEnemy()
         local r = enemy.angle + math.pi/2
         love.graphics.draw(enemy.image, enemy.x, enemy.y, r, 1, 1, offsetX, offsetY)
  
-        
         -- "hit box" des ennemis
         --love.graphics.setColor(0, 1, 0)
         --love.graphics.circle("line", enemy.x, enemy.y, enemy.radius)
@@ -66,11 +59,9 @@ function createEnemy()
     enemy.takeDamage = function(damage)
         local closeRange = 70
         if math.dist(hero.x, hero.y, enemy.x, enemy.y) < hero.radius + closeRange then
-            startShake(0.3, 3)
+            startShake(0.3, 5)
         else
-            startShake(0.2, 2)
-            print("take damage")
-            print(damage)
+            startShake(0.2, 4)
         end
 
         enemy.life = enemy.life - damage
@@ -84,7 +75,6 @@ function createEnemy()
         print("free enemy")
         enemy.free = true
     end
-
     return enemy
 end
 

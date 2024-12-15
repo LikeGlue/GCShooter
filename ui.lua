@@ -1,5 +1,5 @@
 require("hero")
-require("enemy1")
+require("enemy")
 
 -- FONTS -- Bitmgothic.ttf // Pixelfraktur.ttf
 

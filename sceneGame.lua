@@ -1,6 +1,5 @@
 require("sceneManager")
-require("enemy1")
-require("extraEnemies")
+require("enemy")
 require("bullet")
 
 local hero = require("hero")
@@ -18,7 +17,6 @@ TILE_HEIGHT = 64
 TILE_WIDTH = 64
 
 sceneGame.load = function(data)
-    loadEnemies()
     loadShake()
     hero.load()
     spawn = false
@@ -36,7 +34,6 @@ end
 
 sceneGame.update = function(dt)
     updateShake(dt)
-    --updateExtraEnemies(dt)
 
     startTimer = startTimer - (1 * dt)
     if startTimer <= 1 then
